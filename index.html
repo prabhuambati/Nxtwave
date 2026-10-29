@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#1565d8">
+  <meta name="description" content="Decorate the NxtWave Bot — create and share your own NxtWave robot style.">
+  <title>NxtWave's Doodles — Make your mark</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/src/styles/community.css">
+  <style>
+    :root { font-family: Inter, Arial, sans-serif; color: #1f2937; background: #f5f8fc; --blue:#1565d8; --muted:#64748b; }
+    * { box-sizing:border-box; } html,body { max-width:100%; overflow-x:hidden; } body { margin:0; min-width:320px; min-height:100vh; } button,input,select { font:inherit; }
+    button,a { -webkit-tap-highlight-color:transparent; } :focus-visible { outline:3px solid rgba(21,101,216,.38); outline-offset:3px; }
+    .page { width:min(100% - 32px, 1180px); margin:auto; padding:32px 0 56px; } .intro { text-align:center; margin-bottom:18px; }
+    h1,h2,h3 { margin:0; } h1 { font-size:clamp(28px,5vw,42px); } .intro p { margin:8px 0 0; color:var(--muted); }
+    .play-card { border-radius:18px; background:#fff; border:1px solid #e7edf5; box-shadow:0 3px 16px rgba(15,23,42,.08); padding:16px; }
+    .scene-shell { position:relative; overflow:hidden; border-radius:14px; border:1px solid #dfe8f3; background:radial-gradient(circle,#fff 0,#eef5ff 100%); }
+    .scene { width:100%; height:clamp(380px,58vw,560px); touch-action:none; } .scene canvas { display:block; width:100%; height:100%; }
+    .scene-caption { position:absolute; left:12px; right:12px; bottom:10px; margin:0; text-align:center; color:#64748b; font-size:12px; pointer-events:none; }
+    .scene-status { margin:12px 0; text-align:center; color:var(--muted); font-size:14px; } .scene-status[data-kind="success"]{color:#08715f}.scene-status[data-kind="error"]{color:#b42318}
+    .pose-controls,.component-controls,.image-controls,.growth-panel { margin-top:14px; border:1px solid #e2eaf4; border-radius:12px; background:#fbfdff; padding:14px; }
+    .pose-controls h3,.component-controls h3,.image-controls h3,.growth-panel h3 { margin-bottom:10px; }.pose-grid,.component-tray { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:8px; }.component-tray{grid-template-columns:repeat(4,minmax(0,1fr))}
+    .pose-button,.component-button,.secondary-button,.share-button { min-height:42px; border-radius:9px; border:1px solid #cbd5e1; background:#fff; color:#174b91; font-weight:600; cursor:pointer; padding:8px 10px; }
+    .pose-button[aria-pressed="true"],.component-button[aria-pressed="true"],.share-button { border-color:var(--blue); color:#fff; background:var(--blue); }.pose-button:disabled,.component-button:disabled,button:disabled{opacity:.55;cursor:not-allowed}
+    .pose-status,.component-status,.creation-summary,.creation-share-status,.image-status,.leaderboard-status { min-height:20px; margin:10px 0 0; color:var(--muted); font-size:12px; }.component-help,.image-help,.image-local-note,.growth-note{color:var(--muted);font-size:12px;line-height:1.5}
+    .component-actions,.creation-actions,.image-upload-row,.image-accessory-controls,.publish-controls,.share-actions,.leaderboard-actions { display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; }.component-list{display:flex;flex-wrap:wrap;gap:7px;margin:12px 0 0;padding:0;list-style:none}.component-chip{min-height:32px;border:1px solid #cbd5e1;border-radius:999px;padding:3px 4px 3px 10px;font-size:11px}.component-chip button{border:0;border-radius:50%;margin-left:5px;width:23px;height:23px;color:#174b91;background:#edf4fb}
+    .creation-share-fallback{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:8px;margin-top:10px}.creation-share-fallback label{grid-column:1/-1;font-size:12px}.creation-share-fallback input{min-height:42px;border:1px solid #cbd5e1;border-radius:8px;padding:8px}.image-preview{display:flex;align-items:center;gap:10px;margin-top:10px}.image-preview img{width:72px;height:72px;object-fit:contain;border:1px solid #dfe8f3;border-radius:8px;background:#fff}.upload-credit{display:flex;flex-direction:column;font-size:12px;color:#334155}.image-accessory-controls label,.publish-controls label{display:flex;flex-direction:column;gap:4px;font-size:12px;color:#475569}.publish-controls input[type=text],.image-upload-row input,.image-accessory-controls select,.evolution-form input{min-height:42px;border:1px solid #cbd5e1;border-radius:8px;padding:8px}.consent-check{flex-direction:row!important;align-items:flex-start}.consent-check input{margin-top:2px}
+    .leaderboard-list{margin:12px 0 0;padding:0;list-style-position:inside}.leaderboard-entry{border-top:1px solid #e8eef6;padding:10px 0}.leaderboard-entry img{width:96px;height:96px;object-fit:cover;border-radius:8px;margin-right:10px}.leaderboard-entry strong{display:block}.prize-panel{background:#eff6ff;border-color:#cfe0f7}.workshop-cta{margin-top:14px;border-radius:12px;background:#1565d8;color:#fff;padding:18px;text-align:center}.workshop-cta h3{margin-bottom:6px}.workshop-cta p{margin:0 0 12px;color:#dbeafe}.workshop-cta a{display:inline-block;border-radius:8px;background:#fff;color:#174b91;padding:10px 14px;font-weight:700;text-decoration:none}
+    .rig-diagnostics{margin-top:12px;padding:12px;border:1px solid #dce8f4;border-radius:10px}.rig-diagnostics pre{max-height:300px;overflow:auto;white-space:pre-wrap}.scene-image-tray{position:absolute;z-index:3;top:10px;left:10px;display:grid;width:110px;padding:7px;border-radius:10px;background:rgba(255,255,255,.94);border:1px solid #cbd5e1}.image-tray-item{display:flex!important;min-height:70px;flex-direction:column!important}.image-tray-item img{width:42px;height:38px;object-fit:contain}.preview-link[hidden],[hidden]{display:none!important}
+    .scene-shell.tutorial-highlight{outline:4px solid rgba(21,101,216,.28);outline-offset:-4px;box-shadow:0 0 0 6px rgba(21,101,216,.1)}.image-tutorial{position:fixed;z-index:20;right:18px;bottom:18px;width:min(340px,calc(100vw - 36px));border:1px solid #b9ccdf;border-radius:14px;background:#fff;padding:14px;box-shadow:0 12px 32px rgba(15,23,42,.18)}.image-tutorial[hidden]{display:none}.image-tutorial h3{margin:0 42px 6px 0;font-size:16px}.image-tutorial p{margin:0 0 10px;color:#475569;font-size:13px;line-height:1.45}.tutorial-pointer{position:absolute;right:16px;top:12px;width:28px;height:28px;border-radius:50%;border:2px solid #1565d8}.tutorial-pointer::after{content:"";position:absolute;left:9px;top:-14px;width:8px;height:18px;border-radius:5px;background:#1565d8;transform:rotate(-35deg);transform-origin:bottom;animation:tutorialTap 1.2s ease-in-out infinite}@keyframes tutorialTap{0%,100%{transform:rotate(-35deg) translateY(0)}50%{transform:rotate(-35deg) translateY(5px)}}@media(prefers-reduced-motion:reduce){.tutorial-pointer::after{animation:none}}.tutorial-actions{display:flex;flex-wrap:wrap;gap:7px}.tutorial-actions button{min-height:38px}.tutorial-dont-show{display:flex;align-items:flex-start;gap:7px;margin-top:10px!important;font-size:12px!important}.tutorial-dont-show input{margin-top:2px}
+    @media(max-width:640px){.page{width:min(100% - 20px,980px);padding:20px 0 40px}.play-card{padding:9px}.scene{height:min(110vw,430px);min-height:320px}.pose-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.pose-button:last-child{grid-column:1/-1}.component-tray{grid-template-columns:repeat(2,minmax(0,1fr))}.creation-share-fallback{grid-template-columns:minmax(0,1fr)}.leaderboard-entry img{width:72px;height:72px}}
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="brand-header">
+      <a class="brand-name" href="#create" aria-label="NxtWave's Doodles home">
+        <img src="/nxtwave-doodles-logo.png" alt="NxtWave's Doodles">
+      </a>
+      <nav class="primary-nav" aria-label="Main navigation">
+        <a href="#create" data-nav="create">Create</a><a href="#gallery" data-nav="gallery">Gallery</a><a href="#leaderboard" data-nav="leaderboard">Leaderboard</a><a href="#about" data-nav="about">About</a>
+        <button class="nav-action" id="navHelp" type="button">Help</button><button class="nav-action nav-share" id="navShare" type="button">Share</button>
+      </nav>
+    </header>
+    <div class="ambient-doodles" aria-hidden="true">
+      <img class="ambient-left-top" src="/doodles/2.png" alt="">
+      <img class="ambient-left-mid" src="/doodles/9.png" alt="">
+      <img class="ambient-left-bottom" src="/doodles/5.png" alt="">
+      <img class="ambient-right-top" src="/doodles/3.png" alt="">
+      <img class="ambient-right-mid" src="/doodles/11.png" alt="">
+      <img class="ambient-right-bottom" src="/doodles/12.png" alt="">
+    </div>
+    <article class="play-card route-section" data-route="create" aria-label="NxtWave Bot customization playground">
+      <section class="create-intro">
+        <div>
+          <p class="eyebrow">Create something uniquely yours</p>
+          <h1>Make your mark.</h1>
+          <p>Upload your doodles, stick them on the NxtWave Bot, and create something uniquely yours.</p>
+          <p class="prize-callout"><img src="/doodles/1.png" alt="" aria-hidden="true"><span>Publish your bot to compete for a <strong>₹500 prize pool</strong></span></p>
+        </div>
+        <ol class="create-guide" aria-label="Three step guide">
+          <li><span>1</span><strong>Upload an image</strong></li><li><span>2</span><strong>Tap or click the bot</strong></li><li><span>3</span><strong>Share your creation</strong></li>
+        </ol>
+      </section>
+      <div class="creation-main-column">
+        <div class="scene-shell">
+          <img class="canvas-doodle canvas-doodle-rocket" src="/doodles/8.png" alt="" aria-hidden="true">
+          <img class="canvas-doodle canvas-doodle-star" src="/doodles/7.png" alt="" aria-hidden="true">
+          <img class="canvas-doodle canvas-doodle-arrow" src="/doodles/6.png" alt="" aria-hidden="true">
+          <div class="scene" id="robotScene" aria-label="Interactive decorated robot viewport"></div>
+          <div class="scene-doodle-footer" aria-hidden="true">
+            <img class="scene-doodle-left" src="/doodles/10.png" alt=""><img class="scene-doodle-left-small" src="/doodles/3.png" alt=""><img class="scene-doodle-center" src="/doodles/11.png" alt=""><img class="scene-doodle-right-small" src="/doodles/7.png" alt=""><img class="scene-doodle-right" src="/doodles/4.png" alt="">
+          </div>
+          <div class="scene-image-tray" id="sceneImageTray" hidden><span>Drag image</span><button class="component-button image-tray-item" id="imageTrayItem" type="button" aria-pressed="false" hidden disabled><img id="imageTrayThumbnail" alt=""><span id="imageTrayLabel">Uploaded image</span></button></div>
+          <p class="scene-caption">Drag accessories onto your bot. Upload an image. Create your own style.</p>
+        </div>
+        <p class="scene-status" id="sceneStatus" role="status" aria-live="polite" hidden></p>
+        <section class="growth-panel publish-panel">
+          <div class="publish-heading"><p class="eyebrow">SHARE YOUR STYLE</p><h3>Publish your bot</h3><p>Publishing adds your creation to the public community gallery.</p></div>
+          <div class="publish-controls"><label>Display name<input id="creatorDisplayName" type="text" maxlength="40" autocomplete="nickname" placeholder="Your bot name"></label><label class="consent-check"><input id="publishConsent" type="checkbox"><span>I consent to publish this bot recipe and generated thumbnail publicly. Uploaded local images are never published.</span></label><button class="share-button" id="publishCreation" type="button" disabled>Publish My Bot</button></div>
+          <p class="publish-status" id="publishStatus" role="status">Checking public publishing configuration…</p><div class="publish-success" id="publishSuccess" hidden><strong>Published successfully!</strong><a href="#gallery" id="viewPublishedCreation">View in Gallery →</a></div>
+        </section>
+        <section class="workshop-cta" id="workshopCta"><img src="/doodles/3.png" alt="" aria-hidden="true"><div><h3 id="workshopHeading">Ready to share what you made?</h3><p>Publish your bot and inspire the NxtWave community.</p></div><a href="#gallery">Explore Gallery</a></section>
+        <div class="growth-actions">
+          <section class="credit-card share-credit-card"><img src="/doodles/5.png" alt="" aria-hidden="true"><div><h3>Need more upload credits?</h3><p>Share your bot with friends to earn 5 bonus upload credits.</p><p class="credit-note">Prototype credits are browser-local and may reset if browser storage is cleared. Credits are awarded only through verified eligible referral placement, not merely by sharing.</p></div><button class="secondary-button" id="shareCreditsButton" type="button">Share &amp; Get 5 Credits</button><p class="credit-status" id="shareCreditsStatus" role="status"></p></section>
+          <section class="credit-card workshop-credit-card"><img src="/doodles/1.png" alt="" aria-hidden="true"><div><h3>Ready to level up?</h3><p>Register for the NxtWave workshop and unlock unlimited upload credits.</p><p class="credit-note">Registration verification is proposed, not yet active. Opening the workshop page does not award unlimited credits.</p></div><a class="secondary-button workshop-entry-button" href="#workshop">Register &amp; Get Unlimited Upload Credits</a></section>
+        </div>
+      </div>
+      <aside class="create-controls-sidebar">
+      <section class="image-controls" id="imageControls" aria-labelledby="imageHeading" hidden><div class="component-actions"><h3 id="imageHeading">Upload Image</h3><button class="secondary-button" id="replayImageTutorial" type="button">Help / Replay Tutorial</button></div><p class="image-help">Upload an image, then drag it onto any visible character surface. Click or tap the robot to place it.</p><p class="image-local-note">Uploaded images stay local to this browser session and are not included in share links or public publishing.</p><p class="upload-credit"><strong id="imageCreditsRemaining">5 upload credits remaining</strong><span>Browser-local prototype credit · clearing storage resets it.</span></p><div class="image-upload-row"><label>PNG, JPEG, or WebP (up to 5 MB)<input id="imageFile" type="file" accept="image/png,image/jpeg,image/webp"></label><button class="secondary-button" id="cancelImageUpload" type="button" disabled>Cancel Upload</button></div><div class="image-preview" id="imagePreview" hidden><img id="imagePreviewImg" alt="Selected image preview"><div><strong id="imageFileName"></strong><p id="imageDimensions"></p></div></div><p class="image-status" id="imageStatus">Choose a PNG, JPEG, or WebP image to begin.</p></section>
+      <section class="component-controls" id="componentControls" aria-labelledby="componentHeading" hidden><h3 id="componentHeading">Add a component</h3><p class="component-help">Drag a piece onto the character, or select it and tap the character.</p><div class="component-tray"><button class="component-button" data-component="horn-crystal" aria-pressed="false" type="button">Crystal horns</button><button class="component-button" data-component="horn-curved" aria-pressed="false" type="button">Curved horns</button><button class="component-button" data-component="wings" aria-pressed="false" type="button">Wings</button><button class="component-button" data-component="extra-eyes" aria-pressed="false" type="button">Extra eyes</button><button class="component-button" data-component="tail" aria-pressed="false" type="button">Tail</button><button class="component-button" data-component="halo" aria-pressed="false" type="button">Halo</button><button class="component-button" data-component="spikes" aria-pressed="false" type="button">Spikes</button></div><div class="component-actions"><button class="secondary-button" id="undoComponent" type="button" disabled>Undo last</button><button class="secondary-button" id="resetComponents" type="button" disabled>Reset components</button><button class="secondary-button" id="resetCreation" type="button" disabled>Reset Creation</button></div><p class="creation-summary" id="creationSummary">Current pose: Idle · 0 components</p><ul class="component-list" id="componentList"></ul><p class="component-status" id="componentStatus">Loading the component tray…</p><div class="creation-actions"><button class="share-button" id="shareCreation" type="button" disabled>Share Your Bot</button><button class="secondary-button" id="copyShareLink" type="button" disabled>Copy Share Link</button></div><p class="creation-share-status" id="creationShareStatus" role="status"></p><p class="growth-note">Referral bonuses are browser-local prototype credits and may be reset by clearing storage.</p><div class="creation-share-fallback" id="creationShareFallback" hidden><label for="creationShareUrl">Select and copy this creation link</label><input id="creationShareUrl" type="text" readonly><button class="secondary-button" id="copyCreationLink" type="button">Copy Creation Link</button></div></section>
+      <section class="pose-controls" id="poseControls" aria-labelledby="poseHeading" hidden><h3 id="poseHeading">Choose a pose</h3><div class="pose-grid"><button class="pose-button" data-pose="idle" aria-pressed="true" type="button" disabled>Idle</button><button class="pose-button" data-pose="t-pose" aria-pressed="false" type="button" disabled>T-pose</button><button class="pose-button" data-pose="arms-raised" aria-pressed="false" type="button" disabled>Arms Raised</button><button class="pose-button" data-pose="arms-crossed" aria-pressed="false" type="button" disabled>Arms Crossed</button><button class="pose-button" data-pose="one-legged-balance" aria-pressed="false" type="button" disabled>One-Legged Balance</button></div><p class="pose-status" id="poseStatus">Loading rigged pose presets…</p></section>
+      </aside>
+    </article>
+    <section class="community-section route-section" data-route="gallery" hidden aria-labelledby="galleryHeading">
+      <div class="section-heading"><div><p class="eyebrow">Community creations</p><h1 id="galleryHeading">NxtWave Bot Gallery</h1></div><div class="sort-controls" aria-label="Gallery sorting"><button type="button" data-gallery-sort="top" class="sort-button active">Top Doodles</button><button type="button" data-gallery-sort="recent" class="sort-button">Recent</button><button type="button" data-gallery-sort="liked" class="sort-button">Most Liked</button></div></div>
+      <p class="community-status" id="galleryStatus" role="status">Checking public creations…</p><div class="gallery-grid" id="galleryList" aria-live="polite"></div>
+    </section>
+    <section class="community-section route-section" data-route="leaderboard" hidden aria-labelledby="leaderboardHeading">
+      <div class="section-heading"><div><p class="eyebrow">Community rankings</p><h1 id="leaderboardHeading">Leaderboard</h1></div></div>
+      <div class="community-note"><img src="/doodles/9.png" alt="" aria-hidden="true"><div><strong>Community ranking</strong><p>Rankings update from the actual server-backed like totals. One browser identity may like each creation once.</p></div></div>
+      <p class="community-status" id="leaderboardStatus" role="status">Checking public rankings…</p><ol class="leaderboard-table" id="leaderboardList"></ol>
+    </section>
+    <section class="community-section route-section" data-route="about" hidden aria-labelledby="aboutHeading">
+      <div class="about-card">
+        <img class="about-doodle" src="/doodles/5.png" alt="Build, Learn, Grow Together doodle" aria-hidden="true">
+        <p class="eyebrow">Make it yours</p><h1 id="aboutHeading">A playful bot. A growing community.</h1>
+        <p>Decorate the NxtWave Bot, choose a pose, add accessories, and place your own images directly on the robot. Your uploaded images stay local to this browser session and are never silently added to public publishing.</p>
+        <div class="about-grid"><article><h3>Create</h3><p>Five poses, seven accessories, local image placement, undo, reset, and shareable creation recipes.</p></article><article><h3>Publish</h3><p>Choose a display name, consent to publication, and share a generated thumbnail and bot recipe.</p></article><article><h3>Play fair</h3><p>Likes use one browser voter key per browser and a server-side duplicate constraint. Account-free voting cannot fully prevent coordinated abuse.</p></article></div>
+        <div class="community-note"><img src="/doodles/12.png" alt="" aria-hidden="true"><div><strong>Create, share, inspire</strong><p>There is no advertised prize or competition deadline unless NxtWave publishes approved rules separately.</p></div></div>
+      </div>
+    </section>
+    <section class="workshop-page route-section" data-route="workshop" hidden aria-labelledby="workshopPageTitle">
+      <header class="workshop-page-nav"><a class="brand-name workshop-back" href="#create"><img src="/nxtwave-doodles-logo.png" alt="NxtWave's Doodles"></a><a href="#create">Back to NxtWave's Doodles</a></header>
+      <div class="workshop-hero">
+        <div class="workshop-hero-copy"><p class="eyebrow">FREE ONLINE WORKSHOP</p><h1 id="workshopPageTitle">Build Your First AI Project in 60 Minutes</h1><p class="workshop-subtitle">A free online workshop by NxtWave.</p><p>Learn how to turn a beginner-friendly idea into your first AI project through a focused, practical 60-minute experience.</p><button class="share-button" id="workshopRegisterButton" type="button">Register for the Free Workshop</button><p class="workshop-registration-status" id="workshopRegistrationStatus" role="status"></p></div>
+        <div class="workshop-hero-art" aria-hidden="true"><img src="/doodles/8.png" alt=""><img src="/doodles/11.png" alt=""></div>
+      </div>
+      <div class="workshop-experience"><p class="eyebrow">WHAT YOU'LL EXPERIENCE</p><h2>Start small. Build confidently.</h2><div class="workshop-outcomes"><article><span>01</span><h3>Understand the idea</h3><p>See how a simple problem can become an AI project.</p></article><article><span>02</span><h3>Build step by step</h3><p>Follow a beginner-friendly workflow from idea to working output.</p></article><article><span>03</span><h3>Keep learning</h3><p>Leave with practical next steps for improving your project.</p></article></div><p class="workshop-credit-note">Unlimited upload credits are a proposed benefit after real registration can be verified. This page does not grant credits or collect registration details.</p></div>
+    </section>
+    <section class="workshop-register-page route-section" data-route="workshop-register" hidden aria-labelledby="workshopRegisterTitle">
+      <header class="workshop-register-header">
+        <a class="brand-name" href="/workshop" aria-label="NxtWave's Doodles back to workshop"><img src="/nxtwave-doodles-logo.png" alt="NxtWave's Doodles"></a>
+        <a class="back-workshop" href="/workshop">← Back to Workshop</a>
+      </header>
+      <div class="workshop-register-content">
+        <div class="workshop-register-heading"><p class="eyebrow">FREE ONLINE WORKSHOP</p><h1 id="workshopRegisterTitle">Build Your First AI Project in 60 Minutes</h1><p>Save your spot and start building.</p></div>
+        <div class="workshop-register-layout">
+          <img class="registration-doodle" src="/doodles/8.png" alt="" aria-hidden="true">
+          <form class="workshop-registration-form" id="workshopDemoForm">
+            <h2>Workshop registration</h2>
+            <label>Full name<input name="fullName" type="text" autocomplete="name" required placeholder="Enter your full name"></label>
+            <label>Email address<input name="email" type="email" autocomplete="email" required placeholder="you@example.com"></label>
+            <label>College name<input name="college" type="text" autocomplete="organization" required placeholder="Your college or university"></label>
+            <label>Current year of study<select name="studyYear" required><option value="" selected disabled>Select your year</option><option>First year</option><option>Second year</option><option>Third year</option><option>Fourth year</option><option>Other</option></select></label>
+            <button class="share-button" type="submit">Complete Registration</button>
+            <p class="workshop-demo-confirmation" id="workshopDemoConfirmation" role="status" hidden></p>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+  <aside class="image-tutorial" id="imageTutorial" role="dialog" aria-modal="false" aria-labelledby="imageTutorialTitle" hidden>
+    <div class="tutorial-pointer" aria-hidden="true"></div>
+    <h3 id="imageTutorialTitle">Your image is ready</h3>
+    <p id="imageTutorialText">Your uploaded image is ready to place on the bot.</p>
+    <div class="tutorial-actions">
+      <button class="share-button" id="imageTutorialStart" type="button">Start placing</button>
+      <button class="secondary-button" id="imageTutorialContinue" type="button" hidden>Continue decorating</button>
+      <button class="secondary-button" id="imageTutorialSkip" type="button">Skip tutorial</button>
+    </div>
+    <label class="tutorial-dont-show"><input id="imageTutorialDontShow" type="checkbox">Don't show again</label>
+  </aside>
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
