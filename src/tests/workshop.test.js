@@ -36,6 +36,7 @@ test("the image placement prompt instructs clicking the robot", async () => {
   const html = await readFile(new URL("../../index.html", import.meta.url), "utf8");
   assert.match(html, /Click anywhere on the robot to attach the image/);
   assert.doesNotMatch(html, />Drag image</);
+  assert.doesNotMatch(html, /canvas-doodle|scene-doodle-footer|ambient-doodles/);
 });
 
 test("registration rocket is centered relative to its grid card layout", async () => {

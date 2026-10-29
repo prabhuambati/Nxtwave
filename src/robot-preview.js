@@ -105,7 +105,7 @@ copyShareLinkButton.disabled = true;
 
 document.body.classList.add("robot-branded");
 document.title = "NxtWave's Doodles — Decorate the NxtWave Bot";
-sceneCaption.textContent = "Drag accessories onto the bot, upload an image, and make it yours.";
+sceneCaption.textContent = "Click anywhere on the robot to attach the image";
 sceneStatus.textContent = "Loading the local humanoid model…";
 shareCreationButton.textContent = "Share Your Bot";
 
@@ -521,7 +521,7 @@ function handleImagePlacementPointerUp(event) {
   const releasedOnTray = event.target instanceof Element && Boolean(event.target.closest("#sceneImageTray"));
   if (pointer.source === "tray" && !pointer.moved && (releasedOnTray || !isCanvas)) {
     sceneController.updateImagePlacementAt(event.clientX, event.clientY);
-    setImageStatus("Image selected. Tap or drag it onto a visible character surface.", "success");
+    setImageStatus("Image selected. Click anywhere on the robot to attach it.", "success");
     return;
   }
   if (isCanvas) {
