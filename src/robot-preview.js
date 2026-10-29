@@ -435,7 +435,7 @@ async function handleImageFileChange() {
       imageTrayThumbnail.src = previewUrl;
       imageTrayThumbnail.alt = `Uploaded ${file.name}`;
       imageTrayLabel.textContent = file.name;
-      imageTrayItem.setAttribute("aria-label", `Drag or tap ${file.name} to place it on the character`);
+      imageTrayItem.setAttribute("aria-label", `Click anywhere on the robot to attach ${file.name}`);
       sceneImageTray.hidden = false;
       imageTrayItem.hidden = false;
       imageTrayItem.disabled = false;
@@ -443,7 +443,7 @@ async function handleImageFileChange() {
       imageDimensions.textContent = `${prepared.width} × ${prepared.height} px · ${formatBytes(file.size)}`;
       imagePreview.hidden = false;
       cancelImageUploadButton.disabled = false;
-      setImageStatus("Image decoded locally and added to the component tray. Drag it onto the character, or tap it and then tap a surface.", "success");
+      setImageStatus("Image decoded locally. Click anywhere on the robot to attach it.", "success");
       sceneImageTray.scrollIntoView({ block: "center", behavior: "smooth" });
       showFirstImageTutorial();
     } catch (error) {
